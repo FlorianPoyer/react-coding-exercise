@@ -24,7 +24,7 @@ const ErrorPage = () => {
 
 const useStyles = createUseStyles({
   backgroundError: {
-    backgroundImage: 'url("/balloons.jpg")',
+    backgroundImage: 'url("/origami.jpg")',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
@@ -32,7 +32,10 @@ const useStyles = createUseStyles({
     width: '100%',
     height: '100%',
     top: 0,
-    left: 0
+    left: 0,
+    '@media (max-width: 768px)': {
+      backgroundSize: '100% 35%'
+    }
   },
   positionError: {
     position: 'absolute',
@@ -72,6 +75,7 @@ const useStyles = createUseStyles({
     transform: 'rotate(0.5turn)'
   },
   link: {
+    fontSize: '17px',
     color: theme.colors.primary,
     '&, &:hover, &:focus': {
       textDecoration: 'none'
