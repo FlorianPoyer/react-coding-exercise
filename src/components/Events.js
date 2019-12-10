@@ -1,29 +1,37 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useSelector } from 'react-redux'
-import { getEvents, isEventsReady } from '../selectors'
+import { getEvents, isEventsReady, getEventsError } from '../selectors'
 import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
+import Spinner from './Spinner'
+import ErrorPage from './ErrorPage'
 
 const Events = () => {
   const classes = useStyles()
   const ready = useSelector(isEventsReady)
   const events = useSelector(getEvents)
+  const error = useSelector(getEventsError)
 
   return (
     <div className={classes.container}>
-      <h3 className={classes.title}>
-        <TitleIcon className={classes.titleIcon} />
-        Results
-      </h3>
-      {!ready && <p>Loading...</p>}
-      {ready && (
-        <div className={classes.tilesWrapper}>
-          <div className={classes.tiles}>
-            {events.map(event => <Event key={event.id} className={classes.tile} content={event} />)}
+      {!ready && !events && <Spinner />}
+      {ready && events.length > 0 && (
+        <div>
+          <h3 className={classes.title}>
+            <TitleIcon className={classes.titleIcon} />
+            Results: {<span>{events.length} events found</span>}
+          </h3>
+          <div className={classes.tilesWrapper}>
+            <div className={classes.tiles}>
+              {events.map(event => <Event key={event.id} className={classes.tile} content={event} />)}
+            </div>
           </div>
         </div>
+      )}
+      {error && (
+        <ErrorPage />
       )}
     </div>
   )
