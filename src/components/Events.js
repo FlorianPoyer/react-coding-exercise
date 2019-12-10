@@ -6,6 +6,7 @@ import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
 import Spinner from './Spinner'
+import ErrorPage from './ErrorPage'
 
 const Events = () => {
   const classes = useStyles()
@@ -14,17 +15,22 @@ const Events = () => {
 
   return (
     <div className={classes.container}>
-      <h3 className={classes.title}>
-        <TitleIcon className={classes.titleIcon} />
-        Results: {ready && <span>{events.length} events found</span>}
-      </h3>
-      {!ready && <Spinner />}
-      {ready && (
-        <div className={classes.tilesWrapper}>
-          <div className={classes.tiles}>
-            {events.map(event => <Event key={event.id} className={classes.tile} content={event} />)}
+      {!ready && !events && <Spinner />}
+      {ready && events.length > 0 && (
+        <div>
+          <h3 className={classes.title}>
+            <TitleIcon className={classes.titleIcon} />
+            Results: {<span>{events.length} events found</span>}
+          </h3>
+          <div className={classes.tilesWrapper}>
+            <div className={classes.tiles}>
+              {events.map(event => <Event key={event.id} className={classes.tile} content={event} />)}
+            </div>
           </div>
         </div>
+      )}
+      {!ready && events.length === 0 && (
+        <ErrorPage />
       )}
     </div>
   )
