@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useSelector } from 'react-redux'
-import { getEvents, isEventsReady } from '../selectors'
+import { getEvents, isEventsReady, getEventsError } from '../selectors'
 import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
@@ -12,6 +12,7 @@ const Events = () => {
   const classes = useStyles()
   const ready = useSelector(isEventsReady)
   const events = useSelector(getEvents)
+  const error = useSelector(getEventsError)
 
   return (
     <div className={classes.container}>
@@ -29,7 +30,7 @@ const Events = () => {
           </div>
         </div>
       )}
-      {!ready && events.length === 0 && (
+      {error && (
         <ErrorPage />
       )}
     </div>
